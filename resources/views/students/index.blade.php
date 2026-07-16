@@ -150,11 +150,13 @@
                     </table>
                 </div>
 
-                @if ($students->hasPages())
-                    <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
-                        {{ $students->links() }}
-                    </div>
-                @endif
+                <div id="student-pagination-container">
+                    @if ($students->hasPages())
+                        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+                            {{ $students->links() }}
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
