@@ -42,7 +42,7 @@
                         <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
                             {{ __('Student List') }}
                         </h3>
-                        <p class="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
+                        <p id="student-count-indicator" data-count="{{ $students->total() }}" class="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
                             {{ trans_choice('{0} No students yet|{1} :count student|[2,*] :count students', $students->total(), ['count' => $students->total()]) }}
                         </p>
                     </div>
@@ -77,7 +77,7 @@
                         </thead>
                         <tbody id="student-table" class="divide-y divide-gray-100 dark:divide-gray-700/80">
                             @forelse ($students as $student)
-                                <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors">
+                                <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors" data-student-id="{{ $student->id }}">
                                     <td class="px-6 py-4 text-gray-900 dark:text-gray-100 font-medium whitespace-nowrap">
                                         {{ $student->first_name }}
                                     </td>

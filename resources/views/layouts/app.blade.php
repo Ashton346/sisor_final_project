@@ -7,29 +7,33 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <meta id="reverb-config" 
+              data-key="{{ config('broadcasting.connections.reverb.key') }}"
+              data-host="{{ config('broadcasting.connections.reverb.options.host') }}"
+              data-port="{{ config('broadcasting.connections.reverb.options.port') }}"
+              data-scheme="{{ config('broadcasting.connections.reverb.options.scheme') }}">
+
         <script>
+            const reverbEl = document.getElementById('reverb-config');
             window.Laravel = {
                 reverb: {
-                    key: @js(config('broadcasting.connections.reverb.key')),
-                    host: @js(config('broadcasting.connections.reverb.options.host')),
-                    port: @js((int) config('broadcasting.connections.reverb.options.port')),
-                    scheme: @js(config('broadcasting.connections.reverb.options.scheme')),
-                },
+                    key: reverbEl.dataset.key,
+                    host: reverbEl.dataset.host,
+                    port: parseInt(reverbEl.dataset.port, 10),
+                    scheme: reverbEl.dataset.scheme
+                }
             };
         </script>
 
-        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @include('layouts.navigation')
 
-            <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white dark:bg-gray-800 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -38,7 +42,6 @@
                 </header>
             @endisset
 
-            <!-- Page Content -->
             <main>
                 {{ $slot }}
             </main>

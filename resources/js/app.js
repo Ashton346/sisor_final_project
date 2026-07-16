@@ -34,6 +34,25 @@ const showStudentAlert = (message) => {
     `;
 };
 
+const updateStudentCount = (change) => {
+    const indicator = document.getElementById('student-count-indicator');
+    if (!indicator) return;
+
+    let count = parseInt(indicator.getAttribute('data-count'), 10) || 0;
+    count += change;
+    if (count < 0) count = 0;
+
+    indicator.setAttribute('data-count', count);
+
+    if (count === 0) {
+        indicator.textContent = 'No students yet';
+    } else if (count === 1) {
+        indicator.textContent = '1 student';
+    } else {
+        indicator.textContent = `${count} students`;
+    }
+};
+
 const buildStudentRow = (student) => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '';
 
@@ -108,6 +127,7 @@ studentsChannel.listen('.student.created', (student) => {
 
     tableBody.querySelector('[data-empty-state]')?.remove();
     tableBody.insertAdjacentHTML('afterbegin', buildStudentRow(student));
+    updateStudentCount(1);
 });
 
 studentsChannel.listen('.student.updated', (student) => {
@@ -144,6 +164,7 @@ studentsChannel.listen('.student.deleted', (student) => {
     }
 
     existingRow.remove();
+    updateStudentCount(-1);
 
     if (tableBody && tableBody.children.length === 0) {
         tableBody.insertAdjacentHTML(
